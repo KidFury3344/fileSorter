@@ -1,0 +1,3 @@
+'''
+pythom -m filesorter.py
+'''
