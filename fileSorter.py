@@ -24,36 +24,13 @@ def sorter():
                 fileDirs.append(files.name.upper())
         # choice = int(input("\nPlease choose how you would like your files sorted? "))
         if  checkSub == 0 and choice == 1:
-            createdFileDir = []
-            for i in range(len(fileNames)):
-                if fileNames[i][0] in createdFileDir:
-                    shutil.move(fileNames[i], fileNames[i][0])
-                else:
-                    os.mkdir(fileNames[i][0])
-                    createdFileDir.append(fileNames[i][0].upper())
-                    shutil.move(fileNames[i], fileNames[i][0])
+            alphabetSort(fileNames)
             sortDone()
         elif  checkSub == 0 and choice == 2:
-            createdFileDir = []
-            for i in range(len(fileNames)):
-                date = time.ctime(os.path.getmtime(fileNames[i]))
-                dirName = date[4:10] + " " + date[20:24]
-                if dirName in createdFileDir:
-                    shutil.move(fileNames[i], dirName)
-                else:
-                    os.mkdir(dirName)
-                    createdFileDir.append(dirName)
-                    shutil.move(fileNames[i], dirName)
+            timeSort(fileNames)
             sortDone()    
         elif  checkSub == 1 and choice == 1:
-            createdFileDir = []
-            for i in range(len(fileNames)):
-                if fileNames[i][0] in createdFileDir:
-                    shutil.move(fileNames[i], fileNames[i][0])
-                else:
-                    os.mkdir(fileNames[i][0])
-                    createdFileDir.append(fileNames[i][0].upper())
-                    shutil.move(fileNames[i], fileNames[i][0])
+            alphabetSort(fileNames)
             for dirs in fileDirs:
                 os.chdir(f"{rootPath}\\"+dirs)
                 fileList = os.scandir(f"{rootPath}\\"+dirs)
@@ -65,13 +42,7 @@ def sorter():
                         fileNames.append(files.name.upper())
                     elif files.is_dir():
                         level2FileDirs.append(files.name.upper())
-                for i in range(len(fileNames)):
-                    if fileNames[i][0] in createdFileDir:
-                        shutil.move(fileNames[i], fileNames[i][0])
-                    else:
-                        os.mkdir(fileNames[i][0])
-                        createdFileDir.append(fileNames[i][0].upper())
-                        shutil.move(fileNames[i], fileNames[i][0])   
+                alphabetSort(fileNames)
             sortDone()
         elif checkSub == 1 and choice == 2:
             createdFileDir = []
@@ -95,15 +66,7 @@ def sorter():
                         fileNames.append(files.name.upper())
                     elif files.is_dir():
                         level2FileDirs.append(files.name.upper())
-                for i in range(len(fileNames)):
-                    date = time.ctime(os.path.getmtime(fileNames[i]))
-                    dirName = date[4:10] + " " + date[20:24]
-                    if dirName in createdFileDir:
-                        shutil.move(fileNames[i], dirName)
-                    else:
-                        os.mkdir(dirName)
-                        createdFileDir.append(dirName)
-                        shutil.move(fileNames[i], dirName)
+                timeSort(fileNames)
             sortDone()
     else:
         error.set("Please Enter A Valid Path.")                            
@@ -112,7 +75,29 @@ def browseFiles():
     filename = filedialog.askdirectory(initialdir = "/", title = "Select a Folder Where Sorting is Required.")
     path_entry.insert(0,filename)
 
- 
+
+
+def alphabetSort(fileNames):
+    createdFileDir = []
+    for i in range(len(fileNames)):
+        if fileNames[i][0] in createdFileDir:
+            shutil.move(fileNames[i], fileNames[i][0])
+        else:
+            os.mkdir(fileNames[i][0])
+            createdFileDir.append(fileNames[i][0].upper())
+            shutil.move(fileNames[i], fileNames[i][0])
+
+def timeSort(fileNames):
+    createdFileDir = []
+    for i in range(len(fileNames)):
+        date = time.ctime(os.path.getmtime(fileNames[i]))
+        dirName = date[4:10] + " " + date[20:24]
+        if dirName in createdFileDir:
+            shutil.move(fileNames[i], dirName)
+        else:
+            os.mkdir(dirName)
+            createdFileDir.append(dirName)
+            shutil.move(fileNames[i], dirName)
 def sortDone():
     return messagebox.showinfo(title="Files Have Been Sorted", detail='Your Files Have Been Sorted', parent=mainframe)
     
