@@ -34,7 +34,6 @@ def sorter():
             for dirs in fileDirs:
                 os.chdir(f"{rootPath}\\"+dirs)
                 fileList = os.scandir(f"{rootPath}\\"+dirs)
-                createdFileDir = []
                 level2FileDirs = []
                 fileNames = []
                 for files in fileList:
@@ -45,22 +44,12 @@ def sorter():
                 alphabetSort(fileNames)
             sortDone()
         elif checkSub == 1 and choice == 2:
-            createdFileDir = []
-            for i in range(len(fileNames)):
-                date = time.ctime(os.path.getmtime(fileNames[i]))
-                dirName = date[4:10] + " " + date[20:24]
-                if dirName in createdFileDir:
-                    shutil.move(fileNames[i], dirName)
-                else:
-                    os.mkdir(dirName)
-                    createdFileDir.append(dirName)
-                    shutil.move(fileNames[i], dirName)  
+            timeSort(fileNames) 
             for dirs in fileDirs:
                 os.chdir(f"{rootPath}\\"+dirs)
                 fileList = os.scandir(f"{rootPath}\\"+dirs)
                 level2FileDirs = []
                 fileNames = [] 
-                createdFileDir = []
                 for files in fileList:
                     if files.is_file():
                         fileNames.append(files.name.upper())
